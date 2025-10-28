@@ -3,7 +3,7 @@ import { CreateEquimentDto } from './dto/create-equipment.dto';
 import { UpdateEquimentDto } from './dto/update-equipment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equipment } from './entities/equipment.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class EquipmentService {
@@ -24,6 +24,14 @@ export class EquipmentService {
 
   findOne(id: number) {
     return this.equimentRepository.findOneBy({ id });
+  }
+
+  getEquipmentByQuery(queryParamObject) {
+    if(Object.keys(queryParamObject).includes('name')){
+      queryParamObject.name = Like(`%${queryParamObject.name}%`);
+    }
+    console.log(queryParamObject);
+    return this.equimentRepository.findBy(queryParamObject);
   }
 
   update(id: number, updateEquimentDto: UpdateEquimentDto) {

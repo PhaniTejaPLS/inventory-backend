@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
 import { EquipmentService } from './equipment.service';
 import { CreateEquimentDto } from './dto/create-equipment.dto';
 import { UpdateEquimentDto } from './dto/update-equipment.dto';
@@ -12,15 +12,25 @@ export class EquipmentController {
     return this.equimentService.create(createEquimentDto);
   }
 
+  
   @Get()
-  findAll() {
-    return this.equimentService.findAll();
+  getEquipment(@Query() query:any) {
+    
+   
+    if(Object.keys.length == 0){
+      return this.equimentService.findAll();
+    }else{
+      return this.equimentService.getEquipmentByQuery(query);
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  getEquipmentByTag(@Param('id') id: string) {
     return this.equimentService.findOne(+id);
   }
+
+  
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEquimentDto: UpdateEquimentDto) {
