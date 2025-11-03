@@ -3,7 +3,7 @@ import { CreateEquimentDto } from './dto/create-equipment.dto';
 import { UpdateEquimentDto } from './dto/update-equipment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Equipment } from './entities/equipment.entity';
-import { Like, Repository } from 'typeorm';
+import { Between, Like, Repository } from 'typeorm';
 
 @Injectable()
 export class EquipmentService {
@@ -29,6 +29,12 @@ export class EquipmentService {
   getEquipmentByQuery(queryParamObject) {
     if(Object.keys(queryParamObject).includes('name')){
       queryParamObject.name = Like(`%${queryParamObject.name}%`);
+    }
+    if(Object.keys(queryParamObject).includes('availablequantity')){
+      queryParamObject.availablequantity = Between(0, queryParamObject.availablequantity);
+    }
+    if(Object.keys(queryParamObject).includes('condition') && queryParamObject.condition === 'All'){
+      delete queryParamObject.condition;
     }
     console.log(queryParamObject);
     return this.equimentRepository.findBy(queryParamObject);
