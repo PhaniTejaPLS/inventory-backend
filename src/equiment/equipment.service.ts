@@ -26,19 +26,27 @@ export class EquipmentService {
     return this.equimentRepository.findOneBy({ id });
   }
 
-  getEquipmentByQuery(queryParamObject) {
-    if(Object.keys(queryParamObject).includes('name')){
-      queryParamObject.name = Like(`%${queryParamObject.name}%`);
-    }
-    if(Object.keys(queryParamObject).includes('availablequantity')){
-      queryParamObject.availablequantity = Between(0, queryParamObject.availablequantity);
-    }
-    if(Object.keys(queryParamObject).includes('condition') && queryParamObject.condition === 'All'){
-      delete queryParamObject.condition;
-    }
-    console.log(queryParamObject);
-    return this.equimentRepository.findBy(queryParamObject);
+getEquipmentByQuery(queryParamObject) {
+  const qb = this.equimentRepository.createQueryBuilder('equipment');
+
+  if (queryParamObject.name) {
+    qb.andWhere('equipment.name LIKE :name', { name: `%${queryParamObject.name}%` });
   }
+
+  if (queryParamObject.availablequantity) {
+    qb.andWhere('equipment.availablequantity BETWEEN :min AND :max', { 
+      min: 0, 
+      max: parseInt(queryParamObject.availablequantity) 
+    });
+  }
+
+  if (queryParamObject.condition && queryParamObject.condition !== 'All') {
+    qb.andWhere('equipment.condition = :condition', { condition: queryParamObject.condition });
+  }
+
+  return qb.getMany();
+}
+
 
   update(id: number, updateEquimentDto: UpdateEquimentDto) {
     return `This action updates a #${id} equiment`;
