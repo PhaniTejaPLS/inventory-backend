@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { EquimentModule } from './equiment/equiment.module';
+import { BorrowRequestModule } from './borrow_request/borrow_request.module';
+import { BorrowItemModule } from './borrow_item/borrow_item.module';
 
 @Module({
   imports: [
@@ -15,10 +17,12 @@ import { EquimentModule } from './equiment/equiment.module';
       password:'123',
       database:'inventory',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      // synchronize:true,
+      synchronize:true,
     }),
     UsersModule,
     EquimentModule,
+    BorrowRequestModule,
+    BorrowItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],

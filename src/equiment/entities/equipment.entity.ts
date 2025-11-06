@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BorrowItem } from "../../borrow_item/entities/borrow_item.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Equipment {
@@ -22,8 +23,8 @@ export class Equipment {
     @Column()
     availablequantity:number;
 
-    @Column()
-    description:string;
-
+    @OneToMany(()=> BorrowItem, (borrowItem) => borrowItem.equipment)
+    borrowItems: BorrowItem[];
+    
 
 }

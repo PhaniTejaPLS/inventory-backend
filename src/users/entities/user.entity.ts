@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BorrowRequest } from "../../borrow_request/entities/borrow_request.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -18,6 +19,9 @@ export class User {
 
     @Column({ type:'enum', enum: ['staff', 'student','admin'], default: 'student' })
     role:string;
+
+    @OneToMany( () => BorrowRequest, (borrowRequest) => borrowRequest.user)
+    borrowRequests: BorrowRequest[];
 
     
 }
