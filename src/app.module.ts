@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { EquimentModule } from './equiment/equiment.module';
 import { BorrowRequestModule } from './borrow_request/borrow_request.module';
 import { BorrowItemModule } from './borrow_item/borrow_item.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { BorrowItemModule } from './borrow_item/borrow_item.module';
     EquimentModule,
     BorrowRequestModule,
     BorrowItemModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

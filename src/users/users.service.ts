@@ -26,6 +26,14 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
+  findByUsername(email: string) {
+    // use a typed-safe query builder to avoid TypeScript complaints about unknown properties
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .getOne();
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
