@@ -29,6 +29,8 @@ export class BorrowRequestService {
         borrowRequest: savedRequest,
         equipment: { id: itemDto.equipmentId },
         quantity: itemDto.quantity,
+        returnDate: itemDto.returnDate,
+        borrowDate: itemDto.borrowDate
       });
       await this.borrowItemRepository.save(borrowItem);
     }));
@@ -49,6 +51,34 @@ export class BorrowRequestService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} borrowRequest`;
+    return this.borrowRequestRepository.delete(id)
   }
+
+  findByUserId(userId: number) {
+    return this.borrowRequestRepository.find({
+      where: {
+        userId: userId
+      }
+    });
+  }
+
+  async getRequestDetailsByRequestId(requestId:number) {
+    console.log(requestId)
+    return await this.borrowItemRepository
+  .createQueryBuilder('bi')
+  .innerJoin('bi.equipment', 'e')
+  .innerJoin('bi.borrowRequest', 'br') 
+  .where('br.id = :requestId', { requestId })
+  .select([
+    'e.name AS "equipmentName"',
+    'e.tag AS "equipmentTag"',
+    'bi.quantity AS "borrowedQuantity"',
+    'bi.borrowDate AS "borrowDate"',
+    'bi.returnDate AS "returnDate"',
+  ])
+  .orderBy('bi.borrowDate', 'DESC')
+  .addOrderBy('e.name', 'ASC')
+  .getRawMany(); 
+  }
+
 }

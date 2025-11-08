@@ -28,7 +28,7 @@ export class BorrowRequest {
 
     
 
-    @OneToMany(()=> BorrowItem, (borrowItem) => borrowItem.borrowRequest)
+    @OneToMany(()=> BorrowItem, (borrowItem) => borrowItem.borrowRequest, {cascade:true, onDelete:'CASCADE'})
     items: BorrowItem[];
 
 }

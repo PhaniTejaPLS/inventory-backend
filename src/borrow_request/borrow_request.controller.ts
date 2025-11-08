@@ -3,7 +3,7 @@ import { BorrowRequestService } from './borrow_request.service';
 import { CreateBorrowRequestDto } from './dto/create-borrow_request.dto';
 import { UpdateBorrowRequestDto } from './dto/update-borrow_request.dto';
 
-@Controller('borrow-requests')
+@Controller('request')
 export class BorrowRequestController {
   constructor(private readonly borrowRequestService: BorrowRequestService) {}
 
@@ -21,6 +21,18 @@ export class BorrowRequestController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.borrowRequestService.findOne(+id);
+  }
+
+  @Get('/user/:userId')
+  findByUser(@Param('userId') userId: string) {
+    const uId = parseInt(userId)
+    return this.borrowRequestService.findByUserId(+uId);
+  }
+
+  @Get('/details/:requestId')
+  findReqeustDetailsById(@Param('requestId') requestId: string) {
+    const reqId = parseInt(requestId);
+    return this.borrowRequestService.getRequestDetailsByRequestId(reqId);
   }
 
   @Patch(':id')

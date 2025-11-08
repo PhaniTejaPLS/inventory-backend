@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsDate, IsNotEmpty } from "class-validator";
 import { PrimaryGeneratedColumn } from "typeorm";
 
 export class CreateBorrowItemDto {
@@ -11,6 +11,14 @@ export class CreateBorrowItemDto {
 
         @IsNotEmpty()
         quantity: number;
+
+        @IsNotEmpty()
+        @IsDate()
+        returnDate: Date;
+
+        @IsNotEmpty()
+        @IsDate()
+        borrowDate: Date;
 
         @IsNotEmpty()
         equipmentId: number;

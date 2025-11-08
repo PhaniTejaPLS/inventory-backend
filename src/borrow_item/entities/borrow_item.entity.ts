@@ -1,6 +1,6 @@
 import { BorrowRequest } from "../../borrow_request/entities/borrow_request.entity";
 import { Equipment } from "../../equiment/entities/equipment.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -13,7 +13,13 @@ export class BorrowItem {
     @Column()
     quantity:number;
 
-    @ManyToOne(()=> BorrowRequest, (borrowRequest) => borrowRequest.items)
+    @CreateDateColumn()
+    returnDate: Date;
+
+    @CreateDateColumn()
+    borrowDate:Date
+
+    @ManyToOne(()=> BorrowRequest, (borrowRequest) => borrowRequest.items, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'requestId' })
     borrowRequest: BorrowRequest;
 
