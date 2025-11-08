@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Req, Put } from '@nestjs/common';
 import { EquipmentService } from './equipment.service';
 import { CreateEquimentDto } from './dto/create-equipment.dto';
 import { UpdateEquimentDto } from './dto/update-equipment.dto';
+import { parse } from 'path';
 
 @Controller('equipment')
 export class EquipmentController {
@@ -29,6 +30,13 @@ export class EquipmentController {
     return this.equimentService.findOne(+id);
   }
 
+  @Put(':id')
+  async replace(@Param('id') id: string, @Body() updateEquimentDto: UpdateEquimentDto) {
+    console.log(updateEquimentDto);
+    const equipId = parseInt(id);
+    updateEquimentDto.id = equipId;
+    return await this.equimentService.replace(equipId, updateEquimentDto);
+  }
   
 
 

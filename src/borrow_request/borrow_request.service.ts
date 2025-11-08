@@ -39,7 +39,7 @@ export class BorrowRequestService {
   }
 
   findAll() {
-    return `This action returns all borrowRequest`;
+    return this.borrowRequestRepository.find();
   }
 
   findOne(id: number) {
@@ -47,7 +47,7 @@ export class BorrowRequestService {
   }
 
   update(id: number, updateBorrowRequestDto: UpdateBorrowRequestDto) {
-    return `This action updates a #${id} borrowRequest`;
+    return this.borrowRequestRepository.update(id, updateBorrowRequestDto);
   }
 
   remove(id: number) {
